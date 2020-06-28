@@ -15,15 +15,8 @@ class MainActivity : AppCompatActivity() {
             startActivity(Intent(this,TestActivity::class.java))
         }
 
-        LiveBus.instance.observer("tag",observer,this)
-        LiveBus.instance.observer("test", Observer {
-            tvName.text = "$it"
-        })
+        LiveBus.instance.observer("tag", observer,this)
 
-        btnSend.setOnClickListener {
-            LiveBus.instance.post("test","这是测试数据")
-
-        }
     }
     private val observer = Observer<Any> {
         Log.d(MainActivity::class.java.simpleName, "onCreate: tag = $it")

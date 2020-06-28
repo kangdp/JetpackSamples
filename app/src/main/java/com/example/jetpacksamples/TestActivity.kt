@@ -11,8 +11,5 @@ class TestActivity : AppCompatActivity(){
         btnSend.setOnClickListener {
             LiveBus.instance.post("tag","安卓三部曲")
         }
-        btnSend2.setOnClickListener {
-            LiveBus.instance.post("test","Android 从入门到放弃")
-        }
     }
 }

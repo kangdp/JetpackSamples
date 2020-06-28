@@ -1,5 +1,4 @@
 package com.example.jetpacksamples
-import android.util.Log
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
@@ -23,7 +22,7 @@ class LiveBus private constructor(){
     }
 
     fun post(tag: String,data:Any?){
-        if (tag == "") throw IllegalArgumentException("The tag str is cannot null")
+        if (tag == "") throw IllegalArgumentException("The tag cannot be null")
         val mutableLiveData = mutableLiveDataMaps[tag]
         if (mutableLiveData!=null && mutableLiveData.hasObservers()){//不支持粘性事件
             mutableLiveData.postValue(data)
@@ -32,7 +31,7 @@ class LiveBus private constructor(){
 
     @JvmOverloads
     fun observer(tag:String,observer: Observer<Any>,lifecycleOwner: LifecycleOwner? = null){
-        if (tag == "") throw IllegalArgumentException("The tag str is cannot null")
+        if (tag == "") throw IllegalArgumentException("The tag cannot be null")
         var mutableLiveData = mutableLiveDataMaps[tag]
         if (mutableLiveData == null){
             mutableLiveData = MutableLiveData()
@@ -48,10 +47,9 @@ class LiveBus private constructor(){
     }
 
     fun removeObserver(tag: String,observer: Observer<Any>){
-        if (tag == "") throw IllegalArgumentException("The tag str is cannot null")
+        if (tag == "") throw IllegalArgumentException("The tag cannot be null")
         val mutableLiveData = mutableLiveDataMaps[tag]
         if (mutableLiveData != null){
-            Log.d(LiveBus::class.java.simpleName, "removeObserver: 不为 Null")
             mutableLiveData.removeObserver(observer)
             if (!mutableLiveData.hasObservers()){
                 mutableLiveDataMaps.remove(tag)
