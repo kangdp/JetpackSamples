@@ -8,7 +8,7 @@ import java.lang.IllegalArgumentException
 /**
  * 不支持粘性事件
  */
-class LiveBus {
+class LiveBus private constructor(){
 
     private val mutableLiveDataMaps: MutableMap<String,MutableLiveData<Any>> by lazy(LazyThreadSafetyMode.SYNCHRONIZED) {
        mutableMapOf<String,MutableLiveData<Any>>()
