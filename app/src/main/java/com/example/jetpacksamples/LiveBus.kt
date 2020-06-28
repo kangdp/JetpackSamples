@@ -22,7 +22,7 @@ class LiveBus private constructor(){
     }
 
     fun post(tag: String,data:Any?){
-        if (tag == "") throw IllegalArgumentException("The tag cannot be null")
+        if (tag == "") throw TagException()
         val mutableLiveData = mutableLiveDataMaps[tag]
         if (mutableLiveData!=null && mutableLiveData.hasObservers()){//不支持粘性事件
             mutableLiveData.postValue(data)
@@ -31,7 +31,7 @@ class LiveBus private constructor(){
 
     @JvmOverloads
     fun observer(tag:String,observer: Observer<Any>,lifecycleOwner: LifecycleOwner? = null){
-        if (tag == "") throw IllegalArgumentException("The tag cannot be null")
+        if (tag == "") throw TagException()
         var mutableLiveData = mutableLiveDataMaps[tag]
         if (mutableLiveData == null){
             mutableLiveData = MutableLiveData()
@@ -47,7 +47,7 @@ class LiveBus private constructor(){
     }
 
     fun removeObserver(tag: String,observer: Observer<Any>){
-        if (tag == "") throw IllegalArgumentException("The tag cannot be null")
+        if (tag == "") throw TagException()
         val mutableLiveData = mutableLiveDataMaps[tag]
         if (mutableLiveData != null){
             mutableLiveData.removeObserver(observer)
@@ -56,4 +56,5 @@ class LiveBus private constructor(){
             }
         }
     }
+    class TagException : IllegalArgumentException("The tag cannot be null")
 }
