@@ -56,5 +56,5 @@ class LiveBus private constructor(){
             }
         }
     }
-    class TagException : IllegalArgumentException("The tag cannot be null")
+   private class TagException : IllegalArgumentException("The tag cannot be null")
 }
