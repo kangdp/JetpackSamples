@@ -1,23 +1,38 @@
 package com.example.jetpacksamples
-
-import android.os.Build
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-
-        val dataViewModel = ViewModelProvider.AndroidViewModelFactory.getInstance(application).create(DataViewModel::class.java)
-
-        val nameObserver = Observer<Event>{
-            tvName.text = (it.obj as User).userName
+        btnGo.setOnClickListener {
+            startActivity(Intent(this,TestActivity::class.java))
         }
-        dataViewModel.data.observe(this,nameObserver)
-        dataViewModel.data.postValue(Event("key",User("kdp",28)))
+
+        LiveBus.instance.observer("tag",observer,this)
+        LiveBus.instance.observer("test", Observer {
+            tvName.text = "$it"
+        })
+
+        btnSend.setOnClickListener {
+            LiveBus.instance.post("test","这是测试数据")
+
+        }
     }
+    private val observer = Observer<Any> {
+        Log.d(MainActivity::class.java.simpleName, "onCreate: tag = $it")
+        tvName.text = "$it"
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        LiveBus.instance.removeObserver("tag",observer)
+    }
+
 }
